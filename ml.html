@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Cheatsheet & Decision Guide</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      color: #2b4a6f;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1rem 0;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    th {
+      background: #2b4a6f;
+      color: white;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    .highlight {
+      background: #d0ebff;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>📘 AI Cheatsheet & Decision Guide</h1>
+
+
+  <h2>🧭 ML Decision Flow (Markdown Visual)</h2>
+  <pre>
+Start 🚀
+│
+├── Do you have labeled data?
+│   │
+│   ├── ✅ Yes → Supervised Learning
+│   │   ├── What is the target output?
+│   │   │
+│   │   ├── 📊 Continuous Number (e.g., price, age) → Regression
+│   │   │   ├── Tabular Data → Linear Regression, XGBoost
+│   │   │   │   🔍 Eval: RMSE ↓, MAE ↓, R² ↑ (best R² ≈ 1)
+│   │   │   └── Image Data → CNN Regression
+│   │   │       🔍 Eval: MSE ↓, MAE ↓
+│   │   │
+│   │   └── 🏷️ Category/Label (e.g., spam/not-spam) → Classification
+│   │       ├── Tabular Data → Logistic Regression, Random Forest
+│   │       │   🔍 Eval: Accuracy ↑, F1-score ↑, AUC ↑ (best ≈ 1)
+│   │       ├── Image Data → CNN, ViT (Vision Transformer)
+│   │       │   🔍 Eval: Accuracy ↑, IoU ↑
+│   │       ├── Time Series/Sequences → RNN, LSTM, Temporal Transformers
+│   │       │   🔍 Eval: Accuracy ↑, RMSE ↓, MAPE ↓
+│   │       └── Text/NLP
+│   │           ├── Small Text Tasks → Naive Bayes, RNN, LSTM
+│   │           └── Large Scale NLP → Transformers (BERT, RoBERTa, GPT)
+│   │               🔍 Eval: F1-score ↑, BLEU ↑, Perplexity ↓
+│   │
+│   │       └── Multimodal (Text + Image) → Transformers (CLIP, Flamingo)
+│   │           🔍 Eval: Retrieval Score ↑, Multimodal Accuracy ↑
+│
+├── ⚗️ Partially Labeled Data → Semi-Supervised Learning
+│   ├── Example: Small labeled + large unlabeled
+│   ├── Use: Pseudo-labeling, Self-training, SSL with CNN/RNN/Transformer
+│   └── 🔍 Eval: Accuracy ↑, F1-score ↑ (should match supervised scores)
+│
+└── ❌ No Labeled Data
+    │
+    ├── 🎯 Is there feedback or reward over time?
+    │   ├── ✅ Yes → Reinforcement Learning
+    │   │   ├── Games/Robots → Q-Learning, DQN
+    │   │   ├── Trading/Simulation → PPO, Actor-Critic
+    │   │   └── 🔍 Eval: Cumulative Reward ↑, Return ↑
+    │   │
+    │   └── ❌ No
+    │       └── Unsupervised Learning
+    │           ├── Find Groups? → Clustering (K-Means, DBSCAN)
+    │           │   🔍 Eval: Silhouette Score ↑ (best ≈ 1)
+    │           ├── Reduce Features? → Dim. Reduction (PCA, t-SNE, UMAP)
+    │           │   🔍 Eval: Explained Variance ↑ (best ≥ 95%)
+    │           └── Want to Generate Text/Image?
+    │               ├── Text → Gen AI (GPT, LLaMA, Claude)
+    │               │   🔍 Eval: Perplexity ↓, BLEU ↑, ROUGE ↑
+    │               └── Image → GANs, Diffusion Models (DALL·E, Midjourney)
+    │                   🔍 Eval: FID ↓ (best < 10), IS ↑
+  </pre>
+
+
+
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+    <thead style="background-color: #e6f7ff;">
+      <tr>
+        <th>Learning Type</th>
+        <th>Data Type</th>
+        <th>Techniques & Preprocessing</th>
+        <th>Algorithms / Models</th>
+        <th>Use Cases</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+
+      <h1>DATA TYPE IN ML</h1>
+      <!-- 🟢 Supervised Learning -->
+      <tr>
+        <td rowspan="8" style="background:#d0f0c0;"><b>🟢 Supervised Learning</b></td>
+        <td>Numeric / Tabular</td>
+        <td>Scaling, normalization, feature crossing, binning, outlier removal</td>
+        <td>Linear/Logistic Regression, XGBoost, CatBoost, Random Forest</td>
+        <td>Credit scoring, pricing, churn prediction</td>
+      </tr>
+      <tr>
+        <td>Categorical</td>
+        <td>Label encoding, one-hot encoding, frequency encoding, target encoding</td>
+        <td>Naive Bayes, Decision Trees, LightGBM</td>
+        <td>Customer segmentation, survey analysis</td>
+      </tr>
+      <tr>
+        <td>Text (NLP)</td>
+        <td>Tokenization, stemming/lemmatization, stopwords removal, TF-IDF, Word2Vec, GloVe, BERT tokenization</td>
+        <td>SVM, LSTM, Bi-LSTM, BERT, RoBERTa, GPT Fine-Tuned</td>
+        <td>Sentiment analysis, classification</td>
+      </tr>
+      <tr>
+        <td>Image</td>
+        <td>Resize, crop, normalize, augment (rotate, flip, zoom), histogram equalization</td>
+        <td>CNNs (ResNet, EfficientNet), ViT, CLIP</td>
+        <td>Image classification, defect detection</td>
+      </tr>
+      <tr>
+        <td>Time-Series</td>
+        <td>Rolling window, differencing, trend/seasonality decomposition, Fourier/Seasonal transforms</td>
+        <td>ARIMA, LSTM, GRU, TCN, Transformer-based models</td>
+        <td>Forecasting, anomaly detection</td>
+      </tr>
+      <tr>
+        <td>Multilabel</td>
+        <td>Binary Relevance, Classifier Chains, Label Powerset, threshold tuning</td>
+        <td>Multi-head DL models, Tree Ensembles</td>
+        <td>News classification, medical coding</td>
+      </tr>
+      <tr>
+        <td>Imbalanced</td>
+        <td>SMOTE, ADASYN, undersampling, cost-sensitive loss functions, class weights</td>
+        <td>Balanced RF, focal loss, XGBoost with scale_pos_weight</td>
+        <td>Fraud detection, rare event detection</td>
+      </tr>
+      <tr>
+        <td>Hierarchical</td>
+        <td>Encode parent-child relationships, hierarchical loss functions, taxonomic structures</td>
+        <td>Hierarchical softmax, Tree classifiers</td>
+        <td>Product classification, taxonomy modeling</td>
+      </tr>
+  
+      <!-- 🔵 Unsupervised Learning -->
+      <tr>
+        <td rowspan="6" style="background:#d0e7ff;"><b>🔵 Unsupervised Learning</b></td>
+        <td>Numeric / Tabular</td>
+        <td>Standardization, PCA, ICA, clustering-specific scaling, feature selection</td>
+        <td>KMeans, DBSCAN, Gaussian Mixture, PCA, t-SNE, UMAP</td>
+        <td>Customer segmentation, anomaly detection</td>
+      </tr>
+      <tr>
+        <td>Categorical</td>
+        <td>One-hot encoding, entity embedding, clustering with Jaccard or Hamming similarity</td>
+        <td>KModes, KPrototypes, Agglomerative Clustering</td>
+        <td>Market basket analysis, risk grouping</td>
+      </tr>
+      <tr>
+        <td>Text</td>
+        <td>TF-IDF, LDA topic modeling, embedding (Doc2Vec), vector clustering</td>
+        <td>LDA, NMF, BERTopic, Autoencoders</td>
+        <td>Topic extraction, semantic grouping</td>
+      </tr>
+      <tr>
+        <td>Image</td>
+        <td>Autoencoders, PCA on pixels, clustering on embeddings from pretrained CNNs</td>
+        <td>KMeans on embeddings, Deep Autoencoders</td>
+        <td>Similarity detection, image clustering</td>
+      </tr>
+      <tr>
+        <td>Time-Series</td>
+        <td>Sliding window + clustering, autocorrelation analysis, SAX (Symbolic Aggregate Approximation)</td>
+        <td>TimeSeries KMeans, Matrix Profile, DWT + clustering</td>
+        <td>Equipment behavior patterns</td>
+      </tr>
+      <tr>
+        <td>Graph Data</td>
+        <td>Graph preprocessing (centrality, embeddings like Node2Vec)</td>
+        <td>Spectral Clustering, GCN + clustering</td>
+        <td>Community detection, fraud rings</td>
+      </tr>
+  
+      <!-- 🟡 Semi-Supervised Learning -->
+      <tr>
+        <td rowspan="4" style="background:#fff4cc;"><b>🟡 Semi-Supervised Learning</b></td>
+        <td>Text (NLP)</td>
+        <td>Pre-train on large corpora (masked LM), fine-tune on labeled few-shot samples</td>
+        <td>BERT, GPT, MixMatch, FixMatch, Self-Training</td>
+        <td>Named Entity Recognition, FAQ bots</td>
+      </tr>
+      <tr>
+        <td>Image</td>
+        <td>Pseudo-labeling, consistency regularization (augmentations), Mean Teacher, VAT</td>
+        <td>SimCLR, FixMatch, Noisy Student</td>
+        <td>Medical imaging, rare disease detection</td>
+      </tr>
+      <tr>
+        <td>Tabular</td>
+        <td>Self-training, pseudo-label generation from ensemble learners</td>
+        <td>LightGBM + pseudo-label, Semi-supervised RF</td>
+        <td>Risk modeling in finance, banking</td>
+      </tr>
+      <tr>
+        <td>Graph (Knowledge Graph)</td>
+        <td>Label propagation, graph embedding semi-supervised classification</td>
+        <td>GCN, GAT, Planetoid</td>
+        <td>Node classification, citation graphs</td>
+      </tr>
+  
+      <!-- 🟣 Reinforcement Learning -->
+      <tr>
+        <td rowspan="2" style="background:#ecd4ff;"><b>🟣 Reinforcement Learning</b></td>
+        <td>State Vectors (Tabular)</td>
+        <td>Normalization, feature engineering for dynamic environments</td>
+        <td>Q-learning, DQN, PPO, A3C</td>
+        <td>Supply chain optimization, dynamic pricing, robotics</td>
+      </tr>
+      <tr>
+        <td>Vision / Game Frames</td>
+        <td>Frame stacking, grayscale normalization, experience replay</td>
+        <td>DQN, A3C, Actor-Critic, AlphaZero</td>
+        <td>Game playing, autonomous driving, robotic arms</td>
+      </tr>
+  
+    </tbody>
+  </table>
+  
+  <h2>✅ Quick Legend for Evaluation Metrics</h2>
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Best Value Meaning</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>RMSE, MAE</td><td>Lower = better (closer to 0)</td></tr>
+      <tr><td>R² Score</td><td>Higher = better (best ≈ 1)</td></tr>
+      <tr><td>Accuracy, F1</td><td>Higher = better (best ≈ 1 or 100%)</td></tr>
+      <tr><td>AUC-ROC</td><td>Higher = better (best ≈ 1)</td></tr>
+      <tr><td>Silhouette Score</td><td>Higher = better (best ≈ 1)</td></tr>
+      <tr><td>Perplexity</td><td>Lower = better (ideal ≈ 10–30)</td></tr>
+      <tr><td>BLEU / ROUGE</td><td>Higher = better (≥ 0.3 for BLEU good)</td></tr>
+      <tr><td>FID Score</td><td>Lower = better (best < 10)</td></tr>
+      <tr><td>IS (Inception Score)</td><td>Higher = better (≥ 5)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>✅ Task Type, Model Examples & Evaluation</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Task Type</th>
+        <th>Data Type</th>
+        <th>Model Examples</th>
+        <th>Evaluation Metrics</th>
+        <th>Ideal/Best Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Regression</td><td>Tabular</td><td>Linear Regression, XGBoost</td><td>RMSE ↓, MAE ↓, R² ↑</td><td>RMSE ≈ 0, R² ≈ 1</td></tr>
+      <tr><td>Classification</td><td>Tabular</td><td>Logistic Regression, Random Forest, SVM</td><td>Accuracy ↑, F1-score ↑, AUC ↑</td><td>AUC > 0.90</td></tr>
+      <tr><td>Image Tasks</td><td>Images</td><td>CNN (ResNet, EfficientNet), ViT</td><td>Accuracy ↑, F1 ↑, IoU ↑</td><td>Accuracy > 90%, IoU > 0.7</td></tr>
+      <tr><td>Time Series / Sequence</td><td>Time-based</td><td>RNN, LSTM, GRU</td><td>RMSE ↓, MAE ↓, MAPE ↓</td><td>RMSE ≈ 0</td></tr>
+      <tr><td>Small NLP Tasks</td><td>Text (Short)</td><td>Naive Bayes, LSTM</td><td>F1-score ↑, Accuracy ↑</td><td>F1 > 0.8</td></tr>
+      <tr><td>Large NLP Tasks</td><td>Text (Long)</td><td>Transformers (BERT, RoBERTa, T5)</td><td>F1 ↑, BLEU ↑, Perplexity ↓</td><td>BLEU > 0.3, Perplexity < 30</td></tr>
+      <tr><td>Conversational / Gen AI</td><td>Prompt/Text</td><td>Transformers (GPT, LLaMA, Mistral)</td><td>Perplexity ↓, Rouge ↑, BLEU ↑</td><td>Perplexity < 20, BLEU > 0.4</td></tr>
+      <tr><td>Multimodal AI</td><td>Text + Image</td><td>Transformers (CLIP, Flamingo, Gemini)</td><td>Accuracy ↑, Retrieval Score ↑</td><td>Depends on fusion goal (often ≥80%)</td></tr>
+      <tr><td>Vision Gen AI</td><td>Noise/Input</td><td>GANs (StyleGAN, BigGAN), Diffusion</td><td>FID ↓, IS ↑</td><td>FID < 10, IS > 5</td></tr>
+      <tr><td>Semi-Supervised</td><td>Mixed</td><td>Self-training + CNN/Transformer</td><td>Accuracy ↑, F1-score ↑</td><td>Match supervised baseline</td></tr>
+      <tr><td>Clustering</td><td>Mixed/Unlabeled</td><td>K-Means, DBSCAN, HDBSCAN</td><td>Silhouette ↑, Davies-Bouldin ↓</td><td>Silhouette ≈ 1</td></tr>
+      <tr><td>Dim. Reduction</td><td>Mixed</td><td>PCA, t-SNE, UMAP</td><td>Explained Variance ↑</td><td>≥95% retained variance</td></tr>
+      <tr><td>Reinforcement Learning</td><td>Env/Agent</td><td>Q-Learning, PPO, DQN</td><td>Total Reward ↑, Avg. Return ↑</td><td>Converging long-term reward</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🔥 Key Highlights on Transformers</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Use Case</th>
+        <th>Model Family</th>
+        <th>Benefits</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Text Classification</td><td>BERT, RoBERTa</td><td>Pretrained embeddings + contextual understanding</td></tr>
+      <tr><td>Text Generation</td><td>GPT, LLaMA, T5</td><td>Autoregressive or Seq2Seq generation</td></tr>
+      <tr><td>Image Recognition</td><td>ViT, Swin Transformer</td><td>Attention on image patches, fewer inductive biases</td></tr>
+      <tr><td>Multimodal AI</td><td>CLIP, Flamingo</td><td>Links vision and language tasks together</td></tr>
+      <tr><td>Conversational AI</td><td>GPT-4, Claude, Gemini</td><td>LLMs with instruction-following</td></tr>
+      <tr><td>Document Summarizer</td><td>T5, Pegasus</td><td>Abstract summarization using Seq2Seq</td></tr>
+    </tbody>
+  </table>
+
+
+</body>
+</html>
