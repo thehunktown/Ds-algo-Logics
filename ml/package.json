@@ -1,0 +1,14 @@
+{
+  "name": "ml",
+  "version": "1.0.0",
+  "description": "Static blog server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'No build required'"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "fs-extra": "^11.3.0"
+  }
+}

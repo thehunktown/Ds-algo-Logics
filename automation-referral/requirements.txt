@@ -1,0 +1,45 @@
+# ----------------------
+# Backend (API & ORM)
+# ----------------------
+fastapi
+uvicorn
+sqlalchemy
+python-multipart
+
+# ----------------------
+# Frontend (UI)
+# ----------------------
+streamlit
+requests
+
+# ----------------------
+# LangChain + LLaMA + RAG
+# ----------------------
+langchain
+langchain-core
+langchain-huggingface
+transformers
+huggingface-hub
+
+# ----------------------
+# Quantized Model Loading + LoRA Fine-tuning
+# ----------------------
+bitsandbytes
+accelerate
+peft
+torch  # or specify torch==2.x.x based on your CUDA
+scipy
+safetensors
+
+# ----------------------
+# Utilities
+# ----------------------
+python-dotenv
+email-validator
+
+
+# Quantized inference (4-bit/8-bit)
+
+# LoRA/QLoRA fine-tuning on local GPUs
+
+# Full FastAPI + Streamlit integration
